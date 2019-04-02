@@ -1,0 +1,30 @@
+os: windows
+
+
+install:
+  - choco install miniconda3 --version 4.5.11 --params="'/AddToPath:1'";
+  - export PATH="/c/tools/miniconda3/scripts:/c/tools/miniconda3/:$PATH"
+  - conda config --set always_yes yes --set changeps1 no
+  - conda create -n py2k python=2.7 xlwt
+  - source activate py2k
+  - pip install pyinstaller
+
+script:
+  - pyinstaller --onefile pycalc/check.py
+  - source deactivate
+  - 7z a -tzip pycalc.zip -r dist
+
+deploy:
+  provider: releases
+  api_key: 'ccc63df3cd195a3dbd199e73bd8a2762326e3b35'
+  file: 'pycalc.zip'
+  skip_cleanup: true
+  on:
+    tags/
+
+notifications:
+  email:
+    recipients:
+      - wynemo@126.com
+    on_success: always # default: change
+    on_failure: always # default: always
