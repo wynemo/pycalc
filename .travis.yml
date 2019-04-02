@@ -20,7 +20,7 @@ deploy:
   file: 'pycalc.zip'
   skip_cleanup: true
   on:
-    tags/
+    tags: true
 
 notifications:
   email:
